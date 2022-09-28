@@ -24,3 +24,12 @@ resource "azurerm_linux_web_app" "webapp" {
     minimum_tls_version = "1.2"
   }
 }
+
+terraform {
+  backend "azurerm" {
+     resource_group_name   = var.resource_group_name
+    storage_account_name = "abcd1234"
+    container_name       = "tfstate"
+    key                  = "prod.terraform.tfstate"
+  }
+}
