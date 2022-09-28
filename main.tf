@@ -28,8 +28,21 @@ resource "azurerm_linux_web_app" "webapp" {
 terraform {
   backend "azurerm" {
      resource_group_name   = "${var.resource_group_name}"
-    storage_account_name = "abcd1234"
+    storage_account_name = "${var.storage_account_name}"
     container_name       = "tfstate"
     key                  = "prod.terraform.tfstate"
+  }
+}
+
+
+resource "azurerm_storage_account" "storage_account" {
+  name                     = var.storage_account_name
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "GRS"
+
+  tags = {
+    environment = "dev"
   }
 }
